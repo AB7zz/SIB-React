@@ -72,7 +72,6 @@ const BotNav = () => {
             <View
             style={styles.icons}
             onPress={() => handleButtonClick('menu') }
-            onPressOut={() => setTut(true)}
             >
                 <Ionicons name="menu-outline" size={32} color="#c5161d" />
                 <Link href="/menu">Menu</Link>
