@@ -1,0 +1,43 @@
+Epochs: 50
+Model: LSTM, Sequential
+Batch_size: 128
+Learning rate: 0.01
+Train_test split: 80/20
+Sequence length: 5
+Hidden_layer size: 128
+loss: 0.6926
+accuracy: 0.7109
+val_loss: 0.6996
+val_accuracy: 0.7117
+
+Epochs: 20
+Model: LSTM, Sequential
+Batch_size: 1024
+Learning rate:0.0001
+Train_test split: 90/10
+Sequence length: 5
+Hidden_layer size: 256
+Accuracy: 73.36%
+
+Epochs: 20
+Model: LSTM, Sequential
+Batch_size: 2048
+Learning rate:0.0001
+Train_test split: 90/10
+Sequence length: 20
+Hidden_layer size: 512
+Accuracy: 73.01%
+
+
+
+
+
+['app_login' 'gold_loan_renew' 'transaction_imps'
+ 'priority_banking_request' 'fd_open_1' 'fd_open_2' 'rd_opening'
+ 'transaction_own_acc' 'fd_open_5' 'billpay_recharge'
+ 'kyc_update_DrivingLicence' 'FOR_add_beneficiary' 'FOR_send_money'
+ 'fsld_open' 'kyc_update_Aadhaar/Address' 'kyc_update_PAN'
+ 'kyc_update_VoterID' 'fast_tag' 'mail_id_update' 'transaction_neft'
+ 'fd_open_8' 'fd_open_12' 'fd_open_4' 'fd_open_3' 'fd_open_10' 'apply_apy'
+ 'fd_open_7' 'fd_open_9' 'fd_open_6' 'fd_open_13' 'fd_open_14'
+ 'fd_open_11' 'fd_open_16' 'fd_open_15']
