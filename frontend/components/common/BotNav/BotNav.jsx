@@ -1,14 +1,13 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { MaterialCommunityIcons, AntDesign, FontAwesome } from '@expo/vector-icons';
 import styles from './botnav.style'
-import {useRouter} from 'expo-router'
 import { useStateContext } from '../../../context/StateContext'
+import { Link } from 'expo-router'
 
 const BotNav = () => {
     const {counter, setCounter} = useStateContext()
-    
-    const router = useRouter()
     
     const handleButtonClick = (dest) => {
         const updatedCounter = { ...counter };
@@ -24,40 +23,47 @@ const BotNav = () => {
             updatedCounter.states.menu += 1
         }
         setCounter(updatedCounter)
-        router.push(`/${dest}`)
     }
   return (
     <View style={styles.container}>
         <View style={styles.subcontainer}>
             <View
+            style={styles.icons}
             onPress={() => handleButtonClick('menu')}
             >
-                <Ionicons name="home-sharp" size={32} color="green" />
-                <Text>Home</Text>
+                <Ionicons name="home-sharp" size={32} color="#c5161d" />
+                <Link href="/home">Home</Link>
             </View>
             <View
+            style={styles.icons}
             onPress={() => handleButtonClick('transfer')}
             >
-                <Ionicons name="md-checkmark-circle" size={32} color="green" />
-                <Text>Fund Transfer</Text>
+                <MaterialCommunityIcons name="bank-transfer" size={32} color="#c5161d" />
+                {/* <Ionicons name="bank-transfer" size={32} color="#c5161d" /> */}
+                <Link href="/transfer">Fund Transfer</Link>
             </View>
             <View
+            style={styles.icons}
             onPress={() => handleButtonClick('scan')}
             >
-                <Ionicons name="md-checkmark-circle" size={32} color="green" />
-                <Text>Scan</Text>
+                <AntDesign name="scan1" size={32} color="#c5161d" />
+                {/* <Ionicons name="line-scan" size={32} color="#c5161d" /> */}
+                <Link href="/scan">Scan</Link>
             </View>
             <View
+            style={styles.icons}
             onPress={() => handleButtonClick('recharge')}
             >
-                <Ionicons name="md-checkmark-circle" size={32} color="green" />
-                <Text>Recharge</Text>
+                <FontAwesome name="rupee" size={24} color="#c5161d" />
+                {/* <Ionicons name="money-fill" size={32} color="#c5161d" /> */}
+                <Link href="/recharge">Recharge</Link>
             </View>
             <View
+            style={styles.icons}
             onPress={() => handleButtonClick('menu')}
             >
-                <Ionicons name="menu-outline" size={32} color="green" />
-                <Text>Menu</Text>
+                <Ionicons name="menu-outline" size={32} color="#c5161d" />
+                <Link href="/menu">Menu</Link>
             </View>
         </View>
     </View>

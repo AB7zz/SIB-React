@@ -11,7 +11,7 @@ const index = () => {
         }, 1000)
 
         return () => {
-            insertToS3(seconds, 'st_menu')
+            insertSecondsToS3(seconds, 'st_menu')
         }
     }, [])
   return (

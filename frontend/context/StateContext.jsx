@@ -15,11 +15,22 @@ Notifications.setNotificationHandler({
 const StateContext = React.createContext()
 
 const s3Bucket = new AWS.S3({
-  accessKey: process.env.EXPO_PUBLIC_AWS_ACCESS_KEY,
-  secretKey: process.env.EXPO_PUBLIC_AWS_SECRET_KEY,
+  accessKeyId: process.env.EXPO_PUBLIC_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.EXPO_PUBLIC_AWS_SECRET_KEY,
   Bucket: process.env.EXPO_PUBIC_AWS_BUCKET,
-  signatureVersion: 'v4'
+  signatureVersion: 'v4',
+  apiVersion: 'latest',
+  region: 'us-east-1'
 })
+
+// const s3Bucket = new AWS.S3({
+//   accessKeyId: "AKIA6JVV7EGVRGDLBT6K",
+//   secretAccessKey: "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",
+//   Bucket: "sib-react",
+//   signatureVersion: 'v4',
+//   apiVersion: 'latest',
+//   region: 'us-east-1'
+// })
 
 async function registerForPushNotificationsAsync() {
     let token;
@@ -66,7 +77,7 @@ async function schedulePushNotification() {
 }
 
 export const StateContextProvider = ({ children }) => {
-    const [console, setConsole] = React.useState('')
+    const [consoleMssg, setConsole] = React.useState('')
     const [expoPushToken, setExpoPushToken] = React.useState('');
     const [notification, setNotification] = React.useState(false);
     const notificationListener = React.useRef();
@@ -81,6 +92,9 @@ export const StateContextProvider = ({ children }) => {
       }
     })
     const responseListener = React.useRef();
+    const triggerNoti = async() => {
+      await schedulePushNotification();
+  }
     React.useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
@@ -92,10 +106,30 @@ export const StateContextProvider = ({ children }) => {
         console.log(response);
         });
 
-        return () => {
-        Notifications.removeNotificationSubscription(notificationListener.current);
-        Notifications.removeNotificationSubscription(responseListener.current);
+        const checkTimeAndTrigger = () => {
+          const now = new Date();
+          const targetTime = new Date();
+          targetTime.setHours(19, 0, 0, 0); // Set the target time to 19:00:00
+    
+          if (now >= targetTime) {
+            triggerNoti();
+          }
         };
+    
+        // Initial check
+        checkTimeAndTrigger();
+    
+        // Check every second
+        const intervalId = setInterval(() => {
+          checkTimeAndTrigger();
+        }, 1000);
+
+        return () => {
+          Notifications.removeNotificationSubscription(notificationListener.current);
+          Notifications.removeNotificationSubscription(responseListener.current);
+        };
+
+        
     }, [])
     const [transactionTut, setTransactionTut] = React.useState(false)
     const [userDetails, setUserDetails] = React.useState({
@@ -104,29 +138,37 @@ export const StateContextProvider = ({ children }) => {
         age: '20',
         bal: '1000'
     })
-    const triggerNoti = async() => {
-        await schedulePushNotification();
-    }
+    
 
     const insertSecondsToS3 = (seconds, state) => {
-      const json_data = {
-        seconds,
-        state,
-        user_id: userDetails.user_id
-      }
+      // AWS.config.region = 'us-east-1'
+      // const credentials = new AWS.CognitoIdentityCredentials({
+      //   IdentityPoolId: 'us-east-1:your-id-here',
+      // })
+      // const locationClient = new AWS.Location({
+      //   credentials,
+      // })
+      
+      // const json_data = {
+      //   seconds,
+      //   state,
+      //   user_id: userDetails.user_id
+      // }
+      const csv_data = `${seconds},${state},${userDetails.user_id}\n`
+      setConsole(csv_data)
       s3Bucket.createBucket(() => {
         const params = {
           Bucket: process.env.EXPO_PUBLIC_AWS_BUCKET,
-          Key: `users/${userDetails.user_id}/time.json`,
-          Body: json_data,
-          ContentType: 'application/json'
+          Key: `users/time.csv`,
+          Body: csv_data,
+          ContentType: 'text/csv'
         }
 
         s3Bucket.upload(params, (err, data) => {
           if(err){
-            reject(err)
+            console.log(err)
           }else{
-            resolve(data.Location)
+            console.log(data.Location)
           }
         })
       })
@@ -135,7 +177,7 @@ export const StateContextProvider = ({ children }) => {
         <StateContext.Provider value={{
             transactionTut,
             userDetails,
-            console,
+            consoleMssg,
             counter,
             setCounter,
             setConsole,

@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center'
     },
+    icons: {
+        display: 'flex',
+        alignItems: 'center',
+
+    }
 })
 
 export default styles

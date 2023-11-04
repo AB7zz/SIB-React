@@ -1,40 +1,26 @@
 import { View, Text, SafeAreaView, ScrollView, Button } from 'react-native'
 import { useStateContext } from '../context/StateContext'
-import { Navbar, BotNav } from '../components'
+import { Navbar, BotNav, Card1, Card2, Card3, Card4 } from '../components'
 import React from 'react'
-import { jsonToCSV, readRemoteFile } from 'react-native-csv'
-import * as FileSystem from 'expo-file-system';
 
 const Home = () => {
-    const {triggerNoti, transactionTut, userDetails, setConsole, console} = useStateContext()
+    const {triggerNoti, transactionTut, userDetails, setConsole, consoleMssg} = useStateContext()
     const [click, setClicks] = React.useState(0)
     const handlePress = () => {
         triggerNoti()
-        // setClicks(click + 1)
-        // const jsonData = {
-        //     id: userDetails.user_id,
-        //     tag: 'st_login',
-        //     click
-        // }
-        // const csvData = jsonToCSV(jsonData)
-        // const directoryUri = FileSystem.documentDirectory;
-        // const filePath = directoryUri + 'interest.csv';
-        // setConsole(filePath)
-        // FileSystem.writeAsStringAsync(filePath, csvData);
-        // let read = readRemoteFile(filePath)
-        // setConsole(JSON.stringify(read))
     }
     return(
         <SafeAreaView>
-            <ScrollView style={{height: '100vh'}}>
+            <ScrollView>
                 <Navbar />
                 <View>
-                    <Text>{console}</Text>
+                    <Text>{consoleMssg}</Text>
                 </View>
-                <View>
-                    <Button
-                    title="Click me" 
-                    onPress={handlePress} />
+                <View style={{paddingLeft: 10, paddingRight: 10}}>
+                    <Card1 />
+                    <Card2 />
+                    <Card3 />
+                    <Card4 />
                 </View>
                 <BotNav />
             </ScrollView>
