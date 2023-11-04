@@ -7,7 +7,7 @@ const index = () => {
     const {insertSecondsToS3} = useStateContext()
     React.useEffect(() => {
         setInterval(() => {
-            setSeconds(seconds+1)
+            setSeconds(seconds => seconds+1)
         }, 1000)
 
         return () => {

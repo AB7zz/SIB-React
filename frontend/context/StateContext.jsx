@@ -85,7 +85,7 @@ export const StateContextProvider = ({ children }) => {
     const [counter, setCounter] = React.useState({
       user_id: 123,
       states:{
-        login: 0,
+        home: 0,
         scan: 0,
         transfer: 0,
         menu: 0,
@@ -108,24 +108,6 @@ export const StateContextProvider = ({ children }) => {
         console.log(response);
         });
 
-        const checkTimeAndTrigger = () => {
-          const now = new Date();
-          const targetTime = new Date();
-          targetTime.setHours(19, 0, 0, 0); // Set the target time to 19:00:00
-    
-          if (now >= targetTime && !sentOnce) {
-            triggerNoti();
-            setSentOnce(true)
-          }
-        };
-    
-        // Initial check
-        checkTimeAndTrigger();
-    
-        // Check every second
-        const intervalId = setInterval(() => {
-          checkTimeAndTrigger();
-        }, 1000);
 
         return () => {
           Notifications.removeNotificationSubscription(notificationListener.current);
@@ -144,45 +126,75 @@ export const StateContextProvider = ({ children }) => {
     
 
     const insertSecondsToS3 = (seconds, state) => {
-      const csv_data = `${seconds},${state},${userDetails.user_id}\n`
-      setConsole(csv_data)
-      s3Bucket.createBucket(() => {
-        const params = {
+      const csv_data = `${seconds},${state},${userDetails.user_id}\n`;
+      setConsole(csv_data);
+  
+      const s3Params = {
           Bucket: process.env.EXPO_PUBLIC_AWS_BUCKET,
-          Key: `users/time.csv`,
-          Body: csv_data,
-          ContentType: 'text/csv'
-        }
+          Key: `users/time.csv`
+      };
+  
+      s3Bucket.getObject(s3Params, (err, data) => {
+        if (err) {
+            console.error("Error fetching existing file from S3:", err);
+        } else {
+          const existingData = data.Body.toString('utf-8');
+          const updatedData = existingData + csv_data;
 
-        s3Bucket.upload(params, (err, data) => {
-          if(err){
-            console.log(err)
-          }else{
-            console.log(data.Location)
-          }
-        })
-      })
-    }
+          const uploadParams = {
+              Bucket: process.env.EXPO_PUBLIC_AWS_BUCKET,
+              Key: `users/time.csv`,
+              Body: updatedData,
+              ContentType: 'text/csv'
+          };
+
+          s3Bucket.upload(uploadParams, (err, data) => {
+              if (err) {
+                  console.error("Error uploading updated file to S3:", err);
+              } else {
+                  console.log("File updated and uploaded successfully:", data.Location);
+              }
+          });
+        }
+      });
+    };
+  
     const insertClicksToS3 = (clicks, state) => {
-      const csv_data = `${clicks},${state},${userDetails.user_id}\n`
-      setConsole(csv_data)
-      s3Bucket.createBucket(() => {
-        const params = {
+      const csv_data = `${clicks},${state},${userDetails.user_id}\n`;
+      setConsole(csv_data);
+  
+      const s3Params = {
           Bucket: process.env.EXPO_PUBLIC_AWS_BUCKET,
-          Key: `users/click.csv`,
-          Body: csv_data,
-          ContentType: 'text/csv'
-        }
+          Key: `users/click.csv`
+      };
+  
+      s3Bucket.getObject(s3Params, (err, data) => {
+        if (err) {
+            console.error("Error fetching existing file from S3:", err);
+        } else {
+          // Append new row to existing content
+          const existingData = data.Body.toString('utf-8');
+          const updatedData = existingData + csv_data;
 
-        s3Bucket.upload(params, (err, data) => {
-          if(err){
-            console.log(err)
-          }else{
-            console.log(data.Location)
-          }
-        })
-      })
-    }
+          // Upload the updated content back to S3
+          const uploadParams = {
+              Bucket: process.env.EXPO_PUBLIC_AWS_BUCKET,
+              Key: `users/click.csv`,
+              Body: updatedData,
+              ContentType: 'text/csv'
+          };
+
+          s3Bucket.upload(uploadParams, (err, data) => {
+              if (err) {
+                  console.error("Error uploading updated file to S3:", err);
+              } else {
+                  console.log("File updated and uploaded successfully:", data.Location);
+              }
+          });
+        }
+      });
+    };
+  
     return (
         <StateContext.Provider value={{
             transactionTut,

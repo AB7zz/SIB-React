@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1487.0",
+    "axios": "^1.6.0",
     "base64-arraybuffer": "^1.0.2",
     "csv-stringify": "^6.4.4",
     "expo": "^49.0.3",

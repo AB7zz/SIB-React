@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Form
+from fastapi.middleware.cors import CORSMiddleware
 import openai
 import uvicorn
 
@@ -6,6 +7,14 @@ openai.organization = "org-L11QL8WVjG8fR5ANhogBJVGk"
 openai.api_key = "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"
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # This allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/gpt4")
 async def ask_GPT4(prompt: str = Form(None)):

@@ -6,19 +6,23 @@ const Card1 = () => {
   return (
     <View style={styles.container}>
         <View style={styles.subcontainer}>
-            <Text style={{color: 'white', fontSize: 20, fontWeight: 700}}>Fixed Deposits</Text>
+            <Text style={{color: '#c5161d', fontSize: 20, fontWeight: 700}}>Stocks</Text>
             <View style={styles.description}>
                 <View style={styles.subdesc}>
-                    <Text style={{color: 'white'}}>500 days (SIB 94PLUS)</Text>
-                    <Text style={{color: 'green'}}>7.30%</Text>
+                    <Text style={{color: '#c5161d'}}>Reliance</Text>
+                    <Text style={{color: '#c5161d'}}>- 0.03</Text>
                 </View>
                 <View style={styles.subdesc}>
-                    <Text style={{color: 'white'}}>500 days (SIB 94PLUS)</Text>
-                    <Text style={{color: 'green'}}>7.30%</Text>
+                    <Text style={{color: '#c5161d'}}>TCS</Text>
+                    <Text style={{color: '#c5161d'}}>- 0.27</Text>
                 </View>
                 <View style={styles.subdesc}>
-                    <Text style={{color: 'white'}}>500 days (SIB 94PLUS)</Text>
-                    <Text style={{color: 'green'}}>7.30%</Text>
+                    <Text style={{color: '#c5161d'}}>HDFC Bank</Text>
+                    <Text style={{color: 'green'}}>+0.45</Text>
+                </View>
+                <View style={styles.subdesc}>
+                    <Text style={{color: '#c5161d'}}>ICICI Bank</Text>
+                    <Text style={{color: 'green'}}>+0.53</Text>
                 </View>
             </View>
         </View>
