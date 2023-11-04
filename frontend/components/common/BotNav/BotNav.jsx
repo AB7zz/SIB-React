@@ -7,25 +7,36 @@ import { useStateContext } from '../../../context/StateContext'
 import { Link } from 'expo-router'
 
 const BotNav = () => {
-    const {counter, setCounter} = useStateContext()
+    const {counter, setCounter, insertClicksToS3, tut, setTut} = useStateContext()
     
     const handleButtonClick = (dest) => {
+        setTut(true)
         const updatedCounter = { ...counter };
         if(dest == 'login'){
-            updatedCounter.states.login += 1
+            updatedCounter.states.login += 1,
+            insertClicksToS3(updatedCounter.states.login, 'st_login')
         }else if(dest == 'transfer'){
-            updatedCounter.states.transfer += 1
+            updatedCounter.states.transfer += 1,
+            insertClicksToS3(updatedCounter.states.transfer, 'st_transfer')
         }else if(dest == 'scan'){
-            updatedCounter.states.scan += 1
+            updatedCounter.states.scan += 1,
+            insertClicksToS3(updatedCounter.states.scan, 'st_scan')
         }else if(dest == 'recharge'){
-            updatedCounter.states.recharge += 1
+            updatedCounter.states.recharge += 1,
+            insertClicksToS3(updatedCounter.states.recharge, 'st_recharge')
         }else if(dest == 'menu'){
-            updatedCounter.states.menu += 1
+            updatedCounter.states.menu += 1,
+            insertClicksToS3(updatedCounter.states.menu, 'st_menu')
         }
         setCounter(updatedCounter)
     }
   return (
     <View style={styles.container}>
+        {tut &&
+        <View style={{display: 'flex', justifyContent: 'center', marginLeft: 185}}>
+            <FontAwesome name="hand-o-down" size={24} color="black" />
+        </View>
+        }
         <View style={styles.subcontainer}>
             <View
             style={styles.icons}
@@ -60,7 +71,8 @@ const BotNav = () => {
             </View>
             <View
             style={styles.icons}
-            onPress={() => handleButtonClick('menu')}
+            onPress={() => handleButtonClick('menu') }
+            onPressOut={() => setTut(true)}
             >
                 <Ionicons name="menu-outline" size={32} color="#c5161d" />
                 <Link href="/menu">Menu</Link>

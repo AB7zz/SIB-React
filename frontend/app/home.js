@@ -5,10 +5,6 @@ import React from 'react'
 
 const Home = () => {
     const {triggerNoti, transactionTut, userDetails, setConsole, consoleMssg} = useStateContext()
-    const [click, setClicks] = React.useState(0)
-    const handlePress = () => {
-        triggerNoti()
-    }
     return(
         <SafeAreaView>
             <ScrollView>

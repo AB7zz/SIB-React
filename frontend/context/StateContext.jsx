@@ -81,6 +81,7 @@ export const StateContextProvider = ({ children }) => {
     const [expoPushToken, setExpoPushToken] = React.useState('');
     const [notification, setNotification] = React.useState(false);
     const notificationListener = React.useRef();
+    const [tut, setTut] = React.useState(false)
     const [counter, setCounter] = React.useState({
       user_id: 123,
       states:{
@@ -141,19 +142,6 @@ export const StateContextProvider = ({ children }) => {
     
 
     const insertSecondsToS3 = (seconds, state) => {
-      // AWS.config.region = 'us-east-1'
-      // const credentials = new AWS.CognitoIdentityCredentials({
-      //   IdentityPoolId: 'us-east-1:your-id-here',
-      // })
-      // const locationClient = new AWS.Location({
-      //   credentials,
-      // })
-      
-      // const json_data = {
-      //   seconds,
-      //   state,
-      //   user_id: userDetails.user_id
-      // }
       const csv_data = `${seconds},${state},${userDetails.user_id}\n`
       setConsole(csv_data)
       s3Bucket.createBucket(() => {
@@ -173,18 +161,41 @@ export const StateContextProvider = ({ children }) => {
         })
       })
     }
+    const insertClicksToS3 = (clicks, state) => {
+      const csv_data = `${clicks},${state},${userDetails.user_id}\n`
+      setConsole(csv_data)
+      s3Bucket.createBucket(() => {
+        const params = {
+          Bucket: process.env.EXPO_PUBLIC_AWS_BUCKET,
+          Key: `users/click.csv`,
+          Body: csv_data,
+          ContentType: 'text/csv'
+        }
+
+        s3Bucket.upload(params, (err, data) => {
+          if(err){
+            console.log(err)
+          }else{
+            console.log(data.Location)
+          }
+        })
+      })
+    }
     return (
         <StateContext.Provider value={{
             transactionTut,
             userDetails,
             consoleMssg,
             counter,
+            tut,
             setCounter,
             setConsole,
             setTransactionTut,
             triggerNoti,
             setUserDetails,
-            insertSecondsToS3
+            insertSecondsToS3,
+            insertClicksToS3,
+            setTut
         }}>
         {children}
         </StateContext.Provider>
