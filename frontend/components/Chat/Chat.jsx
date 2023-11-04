@@ -25,7 +25,7 @@ const Chat = () => {
       };
   return (
     <View style={styles.container}>
-        <Text>{consoleMssg}</Text>
+        {/* <Text>{consoleMssg}</Text> */}
         <View style={styles.heading}>
             <Text style={{color: 'white', fontSize: 20, fontWeight: 800}}>AI ChatBot</Text>
         </View>
