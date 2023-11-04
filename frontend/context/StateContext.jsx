@@ -96,6 +96,7 @@ export const StateContextProvider = ({ children }) => {
     const triggerNoti = async() => {
       await schedulePushNotification();
   }
+  const [sentOnce, setSentOnce] = React.useState(false)
     React.useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
@@ -112,8 +113,9 @@ export const StateContextProvider = ({ children }) => {
           const targetTime = new Date();
           targetTime.setHours(19, 0, 0, 0); // Set the target time to 19:00:00
     
-          if (now >= targetTime) {
+          if (now >= targetTime && !sentOnce) {
             triggerNoti();
+            setSentOnce(true)
           }
         };
     

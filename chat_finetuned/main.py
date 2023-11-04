@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Form
 import openai
+import uvicorn
 
 openai.organization = "org-L11QL8WVjG8fR5ANhogBJVGk"
 openai.api_key = "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"
@@ -19,3 +20,6 @@ async def ask_GPT4(prompt: str = Form(None)):
     )
     
     return {"response": result.choices[0].message.content}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
