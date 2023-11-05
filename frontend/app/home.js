@@ -13,11 +13,11 @@ const Home = () => {
         const checkTimeAndTrigger = () => {
             const now = new Date();
             const targetTime = new Date();
-            targetTime.setHours(1, 42, 0, 0); // Set the target time to 19:00:00
+            targetTime.setHours(10, 0, 0, 0); // Set the target time to 19:00:00
       
             if (now >= targetTime && !sentOnce) {
-              triggerNoti();
-              setSentOnce(true)
+                setSentOnce(true)
+                triggerNoti();
             }
           };
       

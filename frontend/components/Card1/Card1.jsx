@@ -1,10 +1,17 @@
 import React from 'react'
 import styles from './card1.style'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { useStateContext } from '../../context/StateContext'
 
 const Card1 = () => {
+    const {counter, setCounter} = useStateContext()
+    const handleCounterClick = () => {
+        const updatedCounter = { ...counter };
+        updatedCounter.states.stocks += 1
+        setCounter(updatedCounter)
+    }
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={handleCounterClick} style={styles.container}>
         <View style={styles.subcontainer}>
             <Text style={{color: '#c5161d', fontSize: 20, fontWeight: 700}}>Stocks</Text>
             <View style={styles.description}>
@@ -26,7 +33,7 @@ const Card1 = () => {
                 </View>
             </View>
         </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

@@ -89,7 +89,8 @@ export const StateContextProvider = ({ children }) => {
         scan: 0,
         transfer: 0,
         menu: 0,
-        recharge: 0
+        recharge: 0,
+        stocks: 0
       }
     })
     const responseListener = React.useRef();

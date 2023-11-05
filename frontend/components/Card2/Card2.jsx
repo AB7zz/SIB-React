@@ -2,8 +2,10 @@ import React from 'react'
 import styles from './card2.style'
 import { View, Text } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { useStateContext } from '../../context/StateContext';
 
 const Card2 = () => {
+  const {counter} = useStateContext()
   return (
     <>
         <Text style={{color: 'black', fontSize: 20, fontWeight: 700}}>Offers</Text>
