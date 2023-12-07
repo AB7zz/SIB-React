@@ -23,15 +23,6 @@ const s3Bucket = new AWS.S3({
   region: 'us-east-1'
 })
 
-// const s3Bucket = new AWS.S3({
-//   accessKeyId: "AKIA6JVV7EGVRGDLBT6K",
-//   secretAccessKey: "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",
-//   Bucket: "sib-react",
-//   signatureVersion: 'v4',
-//   apiVersion: 'latest',
-//   region: 'us-east-1'
-// })
-
 async function registerForPushNotificationsAsync() {
     let token;
   
